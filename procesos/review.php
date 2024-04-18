@@ -85,7 +85,50 @@ if (isset($_POST['type']) && $_POST['type'] == "addReview") {
         echo 'Error fetching review data.';
     }
 
-} else if (isset($_POST['type']) && $_POST['type'] == "getReviews") {
+} else if (isset($_POST['type']) && $_POST['type'] == "getReviewsByAll") {
+    $sql = "SELECT * FROM reviews LIMIT 10";
+    $result = mysql_query($sql);
+
+    if ($result) {
+        $reviews = array();
+
+        while ($row = mysql_fetch_assoc($result)) {
+            $respond = json_decode($row['respond'], true); // Add true as the second parameter to return an associative array
+            
+            if (isset($respond["reply_name"])) {
+                $replyName = (int)$respond["reply_name"];
+                
+                $userQuery = "SELECT * FROM usuario_admin WHERE id = $replyName";
+                $userResult = mysql_query($userQuery);
+                
+                if ($userResult && mysql_num_rows($userResult) > 0) {
+                    $user = mysql_fetch_assoc($userResult);
+                    $respond["user"] = $user['usuario'];
+                    $respond["imagenes"] = $user['imagenes'];
+                }
+            }
+
+            $reviews[] = array(
+                'id' => $row['id'],
+                'author' => $row['name'],
+                'ageRange' => $row['age_range'],
+                'date' => $row['review_date'],
+                'rating' => $row['rating'],
+                'title' => $row['title'],
+                'reviewText' => $row['review_text'],
+                'images' => $row['image_path_list'],
+                'recommend' => $row['recommend'],
+                'approve' => $row['approve'],
+                'respond' => $respond
+            );
+        }
+
+        // Output reviews data as JSON
+        header('Content-Type: application/json');
+        echo json_encode($reviews);
+    } else {
+        echo 'Error fetching review data.';
+    }
 
 } else if (isset($_POST['type']) && $_POST['type'] == "reverseApprove") {
     $id = isset($_POST['id']) ? $_POST['id'] : '';

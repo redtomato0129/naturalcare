@@ -293,7 +293,7 @@ if($_SESSION['LOGUEO'] == '1')
 
         function fetchReviews() {
             const formData = new FormData();
-            formData.append('type', 'getReviews');
+            formData.append('type', 'getReviewsByAll');
 
             $.ajax({
                 type: "POST",
