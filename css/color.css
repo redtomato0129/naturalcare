@@ -1,0 +1,53 @@
+.box-filter {
+    border-bottom: 1px solid #e8e8e8;
+    margin-bottom: 20px;
+}
+.box-filter:last-child {
+    border: medium none;
+    margin: 0;
+}
+.box-filter li {
+    margin-bottom: 5px;
+}
+.box-filter li a:hover{
+	color:#fe9c00;
+}
+.box-filter li a{
+	color: #666;
+	padding-left:20px;
+	background: url(../imagenes/check.jpg) no-repeat left center;
+}
+.box-filter li a.active{
+	background:url(../imagenes/check.jpg) no-repeat left center;
+}
+.list-color-filter a {
+    border: 1px solid #ccc;
+    display: inline-block;
+    height: 22px;
+    margin-bottom: 4px;
+    margin-right: 7px;
+    width: 22px;
+}
+.list-color-filter a.active{
+	background:url(../imagenes/check.jpg) no-repeat right bottom;
+}
+.list-color-filter a:hover{
+	border:1px solid #ED321E;
+}
+.box-filter ul {
+    margin: 0 0 20px;
+}
+.list-color-filter{
+    margin: 0 0 15px;
+}
+.box-filter:last-child ul{
+	margin:0;
+}
+
+.range-filter > label {
+    font-weight: 400;
+    margin: 0 4px 0 0;
+}
+.range-filter {
+    color: #666;
+} 
