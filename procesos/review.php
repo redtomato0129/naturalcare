@@ -93,22 +93,17 @@ if (isset($_POST['type']) && $_POST['type'] == "addReview") {
         $reviews = array();
 
         while ($row = mysql_fetch_assoc($result)) {
-            $respond = json_decode($row['respond'], true); // Add true as the second parameter to return an associative array
-            
-            if (isset($respond["reply_name"])) {
-                $replyName = (int)$respond["reply_name"];
-                
-                $userQuery = "SELECT * FROM usuario_admin WHERE id = $replyName";
-                $userResult = mysql_query($userQuery);
-                
-                if ($userResult && mysql_num_rows($userResult) > 0) {
-                    $user = mysql_fetch_assoc($userResult);
-                    $respond["user"] = $user['usuario'];
-                    $respond["imagenes"] = $user['imagenes'];
-                }
+
+            $productoQuery = "SELECT * FROM productos WHERE id = " . $row["producto"];
+            $productoResult = mysql_query($productoQuery);
+            $producto_name = null;
+
+            if ($productoResult && mysql_num_rows($productoResult) > 0) {
+                $producto = mysql_fetch_assoc($productoResult);
+                $producto_name = $producto['nombre'];
             }
 
-            $reviews[] = array(
+            $reviewItem = array(
                 'id' => $row['id'],
                 'author' => $row['name'],
                 'ageRange' => $row['age_range'],
@@ -119,8 +114,10 @@ if (isset($_POST['type']) && $_POST['type'] == "addReview") {
                 'images' => $row['image_path_list'],
                 'recommend' => $row['recommend'],
                 'approve' => $row['approve'],
-                'respond' => $respond
+                'producto_name' => $producto_name
             );
+
+            $reviews[] = $reviewItem;
         }
 
         // Output reviews data as JSON
@@ -150,7 +147,7 @@ if (isset($_POST['type']) && $_POST['type'] == "addReview") {
 } else if (isset($_POST['type']) && $_POST['type'] == "replyReview") {
     $id = isset($_POST['id']) ? $_POST['id'] : '';
     $description = isset($_POST['description']) ? $_POST['description'] : '';
-    $addArray = array('description' => $description, 'reply_name' => $_SESSION["LOGUEO"], 'reply_date' => NOW('Y-m-d H-i-s')); 
+    $addArray = array('description' => $description, 'reply_name' => $_SESSION["LOGUEO"], 'reply_date' => date('Y-m-d H:i:s')); 
 
     // Fetch the current JSON data from the database
     $selectQuery = "SELECT respond FROM reviews WHERE id = '" . mysql_real_escape_string($id) . "'";

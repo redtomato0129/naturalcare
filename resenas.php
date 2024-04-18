@@ -341,7 +341,7 @@ if($_SESSION['LOGUEO'] == '1')
                                         </div>
                                     </div>
                                 </td>
-                                <td>${item.product}</td>
+                                <td>${item.producto_name}</td>
                                 <td>${formatDate(item.date)}</td>
                                 <td>
                                     <a href="detalle_resena.html">
