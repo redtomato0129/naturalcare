@@ -41,7 +41,8 @@ if (isset($_POST['type']) && $_POST['type'] == "addReview") {
 
 } else if (isset($_POST['type']) && $_POST['type'] == "getReviewsByProducto") {
     $producto = $_POST['producto'];
-    $sql = "SELECT * FROM reviews WHERE producto = '$producto' LIMIT 10";
+    $count = $_POST['count'];
+    $sql = "SELECT * FROM reviews WHERE producto = '$producto' AND approve = 1 LIMIT 10 OFFSET $count ";
     $result = mysql_query($sql);
 
     if ($result) {

@@ -177,7 +177,8 @@ if($_SESSION['LOGUEO'] == '1')
                                            
                                            
                                             <td>
-                                            <a href= "detalle_resena.html"><div class="fileupload btn btn-info waves-effect waves-light"><span>Ver Detalle</span>                                            </div></a>
+                                            <a href= "detalle_resena.php"><div class="fileupload btn btn-info waves-effect waves-light"><span>Ver Detalle</span>                                            </div></a>
+
                                             </td>
                                         </tr>
                                         
@@ -344,18 +345,38 @@ if($_SESSION['LOGUEO'] == '1')
                                 <td>${item.producto_name}</td>
                                 <td>${formatDate(item.date)}</td>
                                 <td>
-                                    <a href="detalle_resena.html">
+                                    <a href="detalle_resena.php?id=${item.id}" class="tab-link" data-tab="${item.id}" >
                                         <div class="fileupload btn btn-info waves-effect waves-light"><span>Ver Detalle</span></div>
                                     </a>
+
                                 </td>
                             </tr>
                         `;
                         $('#myTable tbody').append(row);
+                        // addEvent();
                         // Append or handle row as needed
                     });
                 }
             });
         }
+
+        // function fireEvent(value) {
+        //     <?php session_start(); ?>
+        //     <?php $_SESSION['selectedData'] = value; ?>
+        // }
+
+        // function addEvent() {
+        //     const tabLinks = document.querySelectorAll('.tab-link');
+        //     tabLinks.forEach(tabLink => {
+        //         tabLink.addEventListener('click', function(event) {
+        //             event.preventDefault();
+        //             const selectedData = this.getAttribute('data-tab');
+        //             sessionStorage.setItem('selectedData', selectedData);
+        //             console.log(sessionStorage.getItem('selectedData'))
+        //             // window.location.href = 'detalle_resena.php';
+        //         });
+        //     });
+        // }
 
         function showResponderModal(itemId) {
             // Set the data attribute 'data-item-id' on the modal to store the item ID
