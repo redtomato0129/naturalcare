@@ -414,6 +414,10 @@ if($_SESSION['LOGUEO'] == '1')
         }
         document.getElementById('guardarBtn').addEventListener('click', function() {
             const description = document.getElementById('input7').value;
+            if (description === "") {
+                alert("Por favor ingresa la información con precisión");
+                return;
+            }
             const id = $('#input7').data('selectedID');
 
             const formData = new FormData();

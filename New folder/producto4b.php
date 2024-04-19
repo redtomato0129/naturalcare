@@ -507,8 +507,8 @@ session_start();
                                 <label class="text-uppercase">¿Recomendarías este producto?</label>
                                 <div class="form-group select-wrapper">
                                     <select name="recomendar" class="form-control">
-                                        <option value="a">SI <div class="yes"></div></option>
-                                        <option value="b">NO <div class="NO"></div></option>
+                                        <option value="1">SI <div class="yes"></div></option>
+                                        <option value="0">NO <div class="NO"></div></option>
                                     </select>
                                 </div>
                             </div>
@@ -1017,7 +1017,7 @@ s0.parentNode.insertBefore(s1,s0);
                                     <div style="display: flex; align-items: center;">
                                         <small style="margin-right: 10px;">Recomendarías este producto?</small>
 
-                                        <div class="${review.recommend === 'Si' ? 'yes' : 'no'}" style="top: 0;"></div>
+                                        <div class="${review.recommend == '1' ? 'yes' : 'no'}" style="top: 0;"></div>
                                     </div>
                                 </div>
                             </div>

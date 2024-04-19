@@ -78,6 +78,7 @@ if ($result) {
     <link href="css/colors/default.css" id="theme" rel="stylesheet">
     <script type="text/javascript">
     function convertDate(inputDate) {
+        if (inputDate === "") return "";
         var parts = inputDate.split(/[- :]/);
         var year = parts[0];
         var month = parts[1];
@@ -97,7 +98,35 @@ if ($result) {
         });
         return imageHTML;
     }
+    function generateRatingStars(rating) {
+        const maxStars = 5;
+        let starsHTML = "";
+        
+        for (let i = 1; i <= maxStars; i++) {
+            const starClass = (i <= rating) ? "fill" : "";
+            starsHTML += `<i class="icon-star ${starClass}"></i>`;
+        }
+        
+        return starsHTML;
+    }
     </script>
+    <style type="text/css">
+        /* Star icon styling */
+        .icon-star {
+          font-size: 20px;
+          color: #27c7d8;
+        }
+
+        /* Filled star icon */
+        .icon-star.fill:before {
+          content: "★";
+        }
+
+        /* Empty star icon */
+        .icon-star:before {
+          content: "☆";
+        }
+    </style>
 </head>
 
 <body>
@@ -222,17 +251,22 @@ if ($result) {
                                                 <div class="row"><div class="col-sm-6">
                                                    <div class="b-all m-t-20 p-20">
                                                     <p class="">Valoración</p>
-                                                    
-                                                    <i class="icon-star fill"></i><i class="icon-star fill"></i><i class="icon-star fill"></i><i class="icon-star fill"></i><i class="icon-star fill"></i>
-                                                   
-                                                    
+                                                        <div class="review-item_rating">
+                                                            <script>
+                                                                document.write(
+                                                                    generateRatingStars(<?php echo json_encode($item["rating"]); ?>)
+                                                                );
+                                                            </script>
+                                                        </div>
                                                 </div></div>
                                                 <div class="col-sm-6">
                                                 <div class="b-all m-t-20 p-20">
                                                 <ul class="list-inline list-unstyled ">
-                                <li class="list-inline-item"><small>Recomendarías este producto?</small></li>
-                                <div class="list-inline-item"><div class="yes"></div> </div>
-                               </ul></div></div>
+                                                    <li class="list-inline-item"><small>Recomendarías este producto?</small></li>
+                                                    <!-- <div class="list-inline-item"><div class="yes"></div> </div> -->
+                                                    <div class="list-inline-item"><div class=<?php echo json_encode($item["recommend"] == '1' ? 'yes' : 'no'); ?> style="top: 10;">                                   
+                                                    </div>
+                                                </ul></div></div>
                                                  <hr> </div>
                                                 
                                             </div>
@@ -242,13 +276,17 @@ if ($result) {
                     <div class="post-comment respuesta m-l-15 m-t-20">
                                 <div class="row">
                                     <div class="col-auto">
-                                        <div class="post-comment-author-img"><img src="../images/user-natural.png" alt="" class="img-fluid"></div>
+                                        <script>
+                                            document.write(
+                                                <?php echo json_encode($item["user"] != null ? '<div class="post-comment-author-img"><img src="../images/user-natural.png" alt="" class="img-fluid"></div>' : '<div></div>'); ?>
+                                            );
+                                        </script>
                                     </div>
                                     <div class="col">
-                                        <div class="post-comment-author"><script>document.write(<?php echo json_encode($item["user"]); ?>);</script></div>
-                                        <div class="post-comment-date"><small><script>document.write(convertDate(<?php echo json_encode($item["reply_date"]); ?>));</script></small></div>
+                                        <div class="post-comment-author"><script>document.write(<?php echo json_encode($item["user"] !== null ? $item["user"] : ""); ?>);</script></div>
+                                        <div class="post-comment-date"><small><script>document.write(convertDate(<?php echo json_encode($item["reply_date"] !== null ? $item["reply_date"] : ""); ?>));</script></small></div>
                                         <div class="post-comment-text">
-                                            <p><script>document.write(<?php echo json_encode($item["description"]); ?>);</script></p>
+                                            <p><script>document.write(<?php echo json_encode($item["description"] !== null ? $item["description"] : ""); ?>);</script></p>
                                         </div>
                                         
                                     </div>
